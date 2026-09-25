@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>MAKYAMA Auto Poster</title>
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header class="hero">
+      <div class="brand">
+        <div class="logo">M</div>
+
+        <div>
+          <h1>MAKYAMA</h1>
+          <p>Auto Poster</p>
+        </div>
+      </div>
+
+      <span id="serverStatus" class="status">
+        Checking...
+      </span>
+    </header>
+
+
+    <section class="card">
+
+      <h2>Post a video</h2>
+
+      <p class="muted">
+        Paste your video link below.
+      </p>
+
+      <label for="videoUrl">
+        Video URL
+      </label>
+
+      <input
+        id="videoUrl"
+        type="url"
+        placeholder="https://..."
+        autocomplete="off"
+      >
+
+
+      <label for="caption">
+        Caption
+      </label>
+
+      <textarea
+        id="caption"
+        rows="4"
+        placeholder="Write your caption..."
+      ></textarea>
+
+
+      <div class="platforms">
+
+        <label class="platform">
+          <input
+            type="checkbox"
+            id="facebook"
+            checked
+          >
+          <span>Facebook</span>
+        </label>
+
+        <label class="platform">
+          <input
+            type="checkbox"
+            id="instagram"
+            checked
+          >
+          <span>Instagram</span>
+        </label>
+
+        <label class="platform">
+          <input
+            type="checkbox"
+            id="youtube"
+            checked
+          >
+          <span>YouTube</span>
+        </label>
+
+        <label class="platform">
+          <input
+            type="checkbox"
+            id="tiktok"
+            checked
+          >
+          <span>TikTok</span>
+        </label>
+
+      </div>
+
+
+      <button id="postButton">
+        Download & Post
+      </button>
+
+      <div id="message"></div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>Connected accounts</h2>
+
+      <div id="accounts">
+
+        <div class="account">
+          <span>Facebook</span>
+          <span id="facebookStatus">Not connected</span>
+        </div>
+
+        <div class="account">
+          <span>Instagram</span>
+          <span id="instagramStatus">Not connected</span>
+        </div>
+
+        <div class="account">
+          <span>YouTube</span>
+          <span id="youtubeStatus">Not connected</span>
+        </div>
+
+        <div class="account">
+          <span>TikTok</span>
+          <span id="tiktokStatus">Not connected</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>Post results</h2>
+
+      <div id="results">
+        No posts yet.
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="/app.js"></script>
+
+</body>
+</html>
