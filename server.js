@@ -15,6 +15,13 @@ const app = express();
 
 const PORT = process.env.PORT || 10000;
 
+const PUBLIC_DIR = path.join(__dirname, "public");
+
+
+// ======================================================
+// SECURITY
+// ======================================================
+
 app.use(
   helmet({
     crossOriginResourcePolicy: false
@@ -23,12 +30,43 @@ app.use(
 
 app.use(cors());
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true }));
+
+// ======================================================
+// REQUEST BODY
+// ======================================================
+
+app.use(
+  express.json({
+    limit: "10mb"
+  })
+);
+
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
+
+
+// ======================================================
+// LOGGING
+// ======================================================
 
 app.use(morgan("combined"));
 
-app.use(express.static(path.join(__dirname, "public")));
+
+// ======================================================
+// STATIC FILES
+// ======================================================
+
+app.use(
+  express.static(PUBLIC_DIR)
+);
+
+
+// ======================================================
+// HEALTH CHECK
+// ======================================================
 
 app.get("/health", (req, res) => {
   res.json({
@@ -39,39 +77,125 @@ app.get("/health", (req, res) => {
   });
 });
 
+
+// ======================================================
+// ACCOUNT STATUS
+// ======================================================
+
 app.get("/api/status", (req, res) => {
   res.json({
     facebook: {
       connected: false
     },
+
     instagram: {
       connected: false
     },
+
     youtube: {
       connected: false
     },
+
     tiktok: {
       connected: false
     }
   });
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+
+// ======================================================
+// PRIVACY POLICY
+// ======================================================
+
+app.get("/privacy", (req, res) => {
+  res.sendFile(
+    path.join(
+      PUBLIC_DIR,
+      "privacy.html"
+    )
+  );
 });
 
-app.use((err, req, res, next) => {
-  console.error("SERVER ERROR:", err);
 
-  res.status(500).json({
+// ======================================================
+// TERMS OF SERVICE
+// ======================================================
+
+app.get("/terms", (req, res) => {
+  res.sendFile(
+    path.join(
+      PUBLIC_DIR,
+      "terms.html"
+    )
+  );
+});
+
+
+// ======================================================
+// HOME PAGE
+// ======================================================
+
+app.get("/", (req, res) => {
+  res.sendFile(
+    path.join(
+      PUBLIC_DIR,
+      "index.html"
+    )
+  );
+});
+
+
+// ======================================================
+// 404 HANDLER
+// ======================================================
+
+app.use((req, res) => {
+  res.status(404).json({
     ok: false,
-    error: "Internal server error"
+    error: "Page not found."
   });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("=================================");
-  console.log("   MAKYAMA AUTO POSTER");
-  console.log("=================================");
-  console.log(`Server running on port ${PORT}`);
+
+// ======================================================
+// ERROR HANDLER
+// ======================================================
+
+app.use((err, req, res, next) => {
+  console.error(
+    "SERVER ERROR:",
+    err
+  );
+
+  res.status(500).json({
+    ok: false,
+    error: "Internal server error."
+  });
 });
+
+
+// ======================================================
+// START SERVER
+// ======================================================
+
+app.listen(
+  PORT,
+  "0.0.0.0",
+  () => {
+    console.log(
+      "================================="
+    );
+
+    console.log(
+      "     MAKYAMA AUTO POSTER"
+    );
+
+    console.log(
+      "================================="
+    );
+
+    console.log(
+      `Server running on port ${PORT}`
+    );
+  }
+);
